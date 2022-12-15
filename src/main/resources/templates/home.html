@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div>
+    <h1>HOME</h1>
+
+    <h2>로그인 유저</h2>
+    <ul>
+        <li th:text="|인가코드 = ${code}|">code</li>
+        <li th:text="|유효토큰 = ${kakaoToken}|">code</li>
+        <li th:text="|사용자정보 = ${nickname}|">code</li>
+        <li th:text="|동의정보 = ${agreementInfo}|">code</li>
+    </ul>
+
+    <ul>
+        <li>
+            <a href="/auth/home/login_form">Home Login Form</a>
+        </li>
+        <li>
+            <a href="/user">User My page</a>
+        </li>
+        <li>
+            <a href="/admin">Admin My page</a>
+        </li>
+    </ul>
+
+</div>
+</body>
+</html>

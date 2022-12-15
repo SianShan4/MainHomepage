@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div class="container">
+
+      <a href="https://kauth.kakao.com/oauth/authorize?client_id=e0860e978d4368033b5c758cfd4b537e&redirect_uri=http://localhost:8080/auth/kakao/callback&response_type=code">
+        <img th:src="@{img/KakaoLoginbtn.png}" style="height:38px"/>
+      </a>
+
+      <div>
+          하단배너
+      </div>
+
+  </div>
+</body>
+</html>
