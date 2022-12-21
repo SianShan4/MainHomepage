@@ -33,11 +33,13 @@ spring:
           kakao:
             client-id: e0860e978d4368033b5c758cfd4b537e
             client-secret: f57qbtkJ6UwOBo4SeT5BlhuGa2uCgTow
-            scope: profile_nickname,profile_image,account_email,openid
-            redirect-uri: http://localhost:8080/oauth/oauth/kakao
+            redirect-uri: http://localhost:8080/auth/kakao/callback
             authorization-grant-type: authorization_code
-            client-name: kakao
+            client-name: Kakao
             client-authentication-method: POST
+            scope:
+              - profile_nickname
+              - profile_image
 
         provider:
           kakao:

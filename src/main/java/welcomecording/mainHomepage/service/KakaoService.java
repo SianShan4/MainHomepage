@@ -7,13 +7,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import welcomecording.mainHomepage.model.KakaoProfile;
 import welcomecording.mainHomepage.model.OAuthToken;
@@ -94,11 +94,12 @@ public class KakaoService {
         System.out.println("kakaoProfileRequest : Rapping success");
 
         ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v2/user/me",
-                HttpMethod.GET,
-                kakaoProfileRequest,
-                String.class
-        );
+                    "https://kapi.kakao.com/v2/user/me",
+                    HttpMethod.GET,
+                    kakaoProfileRequest,
+                    String.class
+            );
+
         System.out.println("kakaoTokenRequest : Data Reqeust sending success");
         System.out.println("Kakao Data (Json data) : "+response.getBody());
 
@@ -136,10 +137,29 @@ public class KakaoService {
                 .username(kakaoProfile.getKakao_account().getProfile().getNickname())
                 .password(dummyPassword.toString())
                 .email(kakaoProfile.getKakao_account().getEmail())
+                .picture(kakaoProfile.getProperties().getProfile_image())
                 .build();
         userService.join(kakaoUser);
 
         return kakaoUser;
+    }
+
+    public ResponseEntity<String> updateToken(OAuthToken oAuthToken) {
+        RestTemplate rt_refresh = new RestTemplate();
+        HttpHeaders headers_refresh = new HttpHeaders();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        headers_refresh.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        params.add("grant_type", "refresh_token");
+        params.add("client_id", "e0860e978d4368033b5c758cfd4b537e");
+        params.add("refresh_token", oAuthToken.getRefresh_token());
+        HttpEntity<MultiValueMap<String, String>> getRefreshTokenRequest = new HttpEntity<>(params,headers_refresh);
+        ResponseEntity<String> response_refresh = rt_refresh.exchange(
+                "https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                getRefreshTokenRequest,
+                String.class
+        );
+        return response_refresh;
     }
 
 }
